@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  # フロントエンド（React）のサービス
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"  # ローカルの5173ポートをコンテナの5173ポートにマッピング
+    volumes:
+      - ./frontend:/app          # ローカルのコード変更をコンテナに即時反映（ホットリロード用）
+      - /app/node_modules        # コンテナ内の node_modules をローカル側で上書きしないための対策
+    environment:
+      - CHOKIDAR_USEPOLLING=true # ホットリロードが効かない場合の対策（必要に応じて）
+
+  # バックエンド（Spring Boot）のサービス（必要に応じて追加）
+  # backend:
+  #   ...
